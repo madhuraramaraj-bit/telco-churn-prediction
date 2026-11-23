@@ -4,11 +4,11 @@ Predicting which telecom customers are likely to leave, and what the company can
 
 ## About this project
 
-This is a beginner machine learning project. I used the public **Telco Customer Churn** dataset from Kaggle (7,043 customers, 21 columns) to build a model that flags customers who are likely to churn (leave the company), and I turned the results into a short business memo.
+This is a beginner machine learning project. I used the public Telco Customer Churn dataset from Kaggle (7,043 customers, 21 columns) to build a model that flags customers who are likely to churn (leave the company), and I turned the results into a short business memo.
 
-**Tools:** Python, pandas, scikit-learn, Google Colab
+**Tools:** Python, pandas, scikit-learn, SQL (sqlite3), Excel, Power BI, Google Colab
 
-> The dataset is not included in this repository. It can be downloaded from Kaggle: search for "Telco Customer Churn" (file: `WA_Fn-UseC_-Telco-Customer-Churn.csv`).
+The dataset is not included in this repository. It can be downloaded from Kaggle: search for "Telco Customer Churn" (file: `WA_Fn-UseC_-Telco-Customer-Churn.csv`).
 
 ## What I did
 
@@ -18,6 +18,7 @@ This is a beginner machine learning project. I used the public **Telco Customer 
 4. **Trained and compared four models** (see results below).
 5. **Checked what drives churn** using the model's coefficients, then confirmed the main patterns directly in the data.
 6. **Wrote a business memo** with findings and recommendations (below).
+7. **Rebuilt the main results in Excel and Power BI**, and the numbers matched (see below).
 
 ## Model results (churners only)
 
@@ -27,7 +28,7 @@ Accuracy alone is misleading here, because 73% of customers stay. A model that a
 |---|---|---|---|
 | Logistic Regression | 0.82 | 0.60 | 0.68 |
 | Random Forest | 0.79 | 0.46 | 0.66 |
-| Logistic Regression (balanced) | 0.75 | **0.82** | 0.51 |
+| Logistic Regression (balanced) | 0.75 | 0.82 | 0.51 |
 | XGBoost (weighted) | 0.77 | 0.72 | 0.55 |
 
 The simple Logistic Regression beat the Random Forest, so a more complex model was not automatically better. Telling Logistic Regression to give extra weight to churners (`class_weight='balanced'`) raised recall from 0.60 to 0.82, at the cost of more false alarms. XGBoost (with extra weight on churners) landed in the middle: recall 0.72, with fewer false alarms than the balanced Logistic Regression. The F1 scores of the three weighted or tuned models are almost tied (about 0.63), so which model is best depends on what a missed churner costs the business compared with an unnecessary retention offer.
@@ -42,29 +43,54 @@ I also answered follow-up questions with SQL (using Python's built-in `sqlite3`)
 - The first comparison (49.4% without tech support against 22.6% with it) looked bigger than it is, because it mixed contract types. Checking inside each contract separates the effects.
 - The data cannot measure how good the tech support is, and it cannot show cause and effect. I would recommend testing a free tech support trial and checking whether churn falls.
 
----
+## Excel and Power BI
 
-# Customer Churn: Findings and Recommendations
+I rebuilt the main results in Excel (pivot tables and charts) and in a Power BI dashboard with a slicer. The numbers matched my Python and SQL results.
 
-## 1. The problem
+- Month-to-month customers are the biggest group (55% of customers) and churn the most: 42.7%, against 11.3% for one-year and 2.8% for two-year contracts.
+- Churn falls as customers stay longer: 48.3% in the first year (0-11 months), and 6.7% after five years (60-72 months).
+- The average monthly charge differs little (66.40, 65.05 and 60.77), but the churn gap is big. So price alone does not explain churn.
+- These are patterns in the data, not proof of cause.
 
-Out of every 100 customers, 27 churn (leave the company). Each customer who leaves takes their monthly income with them. If we can find out who is likely to leave *before* they go, we can offer them a discount and keep them.
+### Power BI dashboard
 
-## 2. Key findings
+All customers: 3,875 month-to-month, 1,695 two-year and 1,473 one-year customers. Churn is 42.7%, 2.8% and 11.3%.
+
+![Power BI dashboard, all customers](images/dashboard_all_customers.png)
+
+Slicer set to Fiber optic: month-to-month churn is 54.6%.
+
+![Power BI dashboard, Fiber optic only](images/dashboard_fiber_optic.png)
+
+### Excel charts
+
+![Churn rate by contract (Excel)](images/churn_rate_by_contract_excel.png)
+
+![Customer share by contract (Excel)](images/customer_share_pie.png)
+
+![Average monthly charge by contract (Excel)](images/avg_monthly_charge_by_contract.png)
+
+## Customer Churn: Findings and Recommendations
+
+### 1. The problem
+
+Out of every 100 customers, 27 churn (leave the company). Each customer who leaves takes their monthly income with them. If we can find out who is likely to leave **before** they go, we can offer them a discount and keep them.
+
+### 2. Key findings
 
 - Customers on month-to-month contracts leave far more often than customers on two-year contracts: 42.7% against 2.8%.
 - Customers with fiber optic internet leave the most (41.9%), compared with DSL customers (19.0%) and customers with no internet (7.4%).
 
-## 3. Model result
+### 3. Model result
 
 The model finds 82% of the customers who are going to leave. The cost is that some of the customers it flags would have stayed anyway (about half of the flagged customers), so the company gives some discounts that weren't needed. This is acceptable, because losing a customer costs more than a discount.
 
-## 4. Recommendations
+### 4. Recommendations
 
 1. Offer month-to-month customers a discount for switching to a one- or two-year contract.
 2. Find out why fiber optic customers leave, for example by checking their service quality and pricing.
 3. Give the retention team a weekly list of customers the model flags as likely to leave, so they can contact them with a discount.
 
-## 5. Estimated impact
+### 5. Estimated impact
 
 If the plan saves just 10% of the customers who would have left, that is about 187 customers kept. At an example value of 65 per month (780 per year) per customer, this protects about 145,860 in yearly income. These numbers are an example to show the scale, and the real value depends on the company's actual prices and costs.
