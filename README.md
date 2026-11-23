@@ -56,19 +56,19 @@ I rebuilt the main results in Excel (pivot tables and charts) and in a Power BI 
 
 All customers: 3,875 month-to-month, 1,695 two-year and 1,473 one-year customers. Churn is 42.7%, 2.8% and 11.3%.
 
-![Power BI dashboard, all customers](images/dashboard_all_customers.png)
+![Power BI dashboard, all customers](Images/dashboard_all_customers.png)
 
 Slicer set to Fiber optic: month-to-month churn is 54.6%.
 
-![Power BI dashboard, Fiber optic only](images/dashboard_fiber_optic.png)
+![Power BI dashboard, Fiber optic only](Images/dashboard_fiber_optic.png)
 
 ### Excel charts
 
-![Churn rate by contract (Excel)](images/churn_rate_by_contract_excel.png)
+![Churn rate by contract (Excel)](Images/churn_rate_by_contract_excel.png)
 
-![Customer share by contract (Excel)](images/customer_share_pie.png)
+![Customer share by contract (Excel)](Images/customer_share_pie.png)
 
-![Average monthly charge by contract (Excel)](images/avg_monthly_charge_by_contract.png)
+![Average monthly charge by contract (Excel)](Images/avg_monthly_charge_by_contract.png)
 
 ## Customer Churn: Findings and Recommendations
 
